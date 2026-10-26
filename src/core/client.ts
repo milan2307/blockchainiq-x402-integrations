@@ -56,8 +56,9 @@ export class BlockchainIQClient {
   private readonly baseUrl: string;
 
   constructor({ payingFetch, plainFetch = fetch, baseUrl = BLOCKCHAIN_IQ_BASE_URL }: BlockchainIQClientOptions) {
-    this.payingFetch = payingFetch;
-    this.plainFetch = plainFetch;
+    // Called through arrow wrappers: Workers' fetch throws "Illegal invocation" when invoked as a method of another object.
+    this.payingFetch = (input, init) => payingFetch(input, init);
+    this.plainFetch = (input, init) => plainFetch(input, init);
     this.baseUrl = baseUrl;
   }
 

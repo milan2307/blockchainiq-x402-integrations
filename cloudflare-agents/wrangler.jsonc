@@ -1,0 +1,12 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "blockchainiq-x402-agent",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "durable_objects": {
+    "bindings": [{ "name": "BlockchainIqAgent", "class_name": "BlockchainIqAgent" }]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["BlockchainIqAgent"] }],
+  "vars": { "MAX_USD_PER_CALL": "0.06" }
+}

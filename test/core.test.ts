@@ -70,3 +70,21 @@ describe("BlockchainIQClient with a paying fetch", () => {
     expect(server.requests).toHaveLength(1);
   });
 });
+
+describe("payee pinning", () => {
+  it("refuses to pay an address other than the pinned one", async () => {
+    const server = createFakeServer({ amount: "10000" });
+    const client = new BlockchainIQClient({
+      payingFetch: createPayingFetch(throwaway(), { fetchImpl: server.fetch, expectedPayTo: "0x000000000000000000000000000000000000dEaD" }),
+    });
+    await expect(client.getBrief()).rejects.toThrow();
+    expect(server.requests.some((r) => r.paid)).toBe(false);
+  });
+  it("pays when the challenge payee matches the pin (case-insensitive)", async () => {
+    const server = createFakeServer({ amount: "10000" });
+    const client = new BlockchainIQClient({
+      payingFetch: createPayingFetch(throwaway(), { fetchImpl: server.fetch, expectedPayTo: LIVE_PAY_TO.toLowerCase() }),
+    });
+    expect((await client.getBrief()).settlement?.transaction).toBe(FAKE_TX);
+  });
+});

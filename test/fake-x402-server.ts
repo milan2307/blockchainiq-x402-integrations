@@ -15,7 +15,8 @@ export const BASE_USDC = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913";
 export const FAKE_TX = ("0x" + "ab".repeat(32)) as Hex;
 
 export interface FakeServerOptions {
-  amount?: string; // atomic USDC
+  /** Atomic USDC, fixed or per request URL. */
+  amount?: string | ((url: string) => string);
   network?: string;
 }
 
@@ -25,7 +26,7 @@ export interface FakeServer {
   verifiedPayers: string[];
 }
 
-export function createFakeServer({ amount = "10000", network = "eip155:8453" }: FakeServerOptions = {}): FakeServer {
+export function createFakeServer({ amount: amountOption = "10000", network = "eip155:8453" }: FakeServerOptions = {}): FakeServer {
   const requests: FakeServer["requests"] = [];
   const verifiedPayers: string[] = [];
 
@@ -33,6 +34,7 @@ export function createFakeServer({ amount = "10000", network = "eip155:8453" }: 
     const request = input instanceof Request ? input : new Request(input, init);
     const signature = request.headers.get("payment-signature");
     requests.push({ url: request.url, paid: Boolean(signature) });
+    const amount = typeof amountOption === "function" ? amountOption(request.url) : amountOption;
 
     const accepts = [
       {

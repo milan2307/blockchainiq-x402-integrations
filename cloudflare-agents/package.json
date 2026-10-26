@@ -1,0 +1,26 @@
+{
+  "name": "blockchainiq-x402-cloudflare-agents",
+  "private": true,
+  "type": "module",
+  "description": "Cloudflare Agents integration for Blockchain IQ's x402 API. Imports the shared core from ../src/core.",
+  "scripts": {
+    "dev": "wrangler dev --local",
+    "test": "vitest run",
+    "test:live-402": "LIVE_402=1 vitest run test/live-402.test.ts",
+    "test:wrangler": "E2E_WRANGLER=1 vitest run test/wrangler.e2e.test.ts",
+    "typecheck": "tsc --noEmit",
+    "paid:cloudflare": "node scripts/paid-call.mjs"
+  },
+  "dependencies": {
+    "agents": "^0.30.1",
+    "ai": "^6.0.315",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261026.1",
+    "@types/node": "^26.6.5",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.5",
+    "wrangler": "^4.152.0"
+  }
+}

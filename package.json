@@ -1,7 +1,7 @@
 {
   "name": "blockchainiq-x402-integrations",
   "version": "0.1.0",
-  "description": "LangChain tool and Coinbase AgentKit action provider for Blockchain IQ's x402 pay-per-call crypto data API (USDC on Base).",
+  "description": "LangChain tool, Coinbase AgentKit action provider and Cloudflare Agents agent for Blockchain IQ's x402 pay-per-call crypto data API (USDC on Base).",
   "license": "MIT",
   "author": "LamuLabs",
   "type": "module",
@@ -15,7 +15,9 @@
     "test:live-402": "LIVE_402=1 vitest run test/live-402.test.ts",
     "paid:langchain": "npm run build && node dist/examples/langchain-paid-call.js",
     "paid:agentkit": "npm run build && node dist/examples/agentkit-paid-call.js",
-    "record-proofs": "npm run build && node dist/scripts/record-proofs.js"
+    "record-proofs": "npm run build && node dist/scripts/record-proofs.js",
+    "paid:cloudflare": "npm --prefix cloudflare-agents run paid:cloudflare",
+    "test:cloudflare": "npm --prefix cloudflare-agents test && npm --prefix cloudflare-agents run test:wrangler"
   },
   "dependencies": {
     "@coinbase/agentkit": "^0.10.4",
